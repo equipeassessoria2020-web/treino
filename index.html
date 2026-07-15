@@ -20,8 +20,8 @@
         </h1>
     </header>
 
-    <!-- Modal de Vídeo Embutido (Roda dentro do App) -->
-    <div id="video-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <!-- Modal de Vídeo Embutido com Link Direto de Segurança -->
+    <div id="video-modal" class="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-zinc-900 border border-yellow-500 rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl">
             <div class="flex justify-between items-center p-4 border-b border-zinc-800">
                 <h4 id="video-title" class="font-bold text-sm text-yellow-500 truncate">Execução do Exercício</h4>
@@ -29,12 +29,22 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <!-- Player de Vídeo do YouTube Embutido -->
+            
+            <!-- Botão de Segurança: Abre direto no aplicativo do YouTube -->
+            <div class="p-3 bg-zinc-950 border-b border-zinc-800">
+                <a id="btn-youtube-direto" href="#" target="_blank" class="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center shadow-lg animate-pulse">
+                    <i class="fa-brands fa-youtube text-lg mr-2"></i>Abrir no App do YouTube
+                </a>
+                <p class="text-[10px] text-gray-500 text-center mt-1.5">Toque acima caso o vídeo abaixo fique em branco.</p>
+            </div>
+
+            <!-- Player de Vídeo Embutido -->
             <div class="relative pb-[56.25%] h-0 bg-black">
                 <iframe id="video-iframe" class="absolute top-0 left-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div class="p-4 text-center">
-                <button onclick="fecharVideo()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider transition-all">
+            
+            <div class="p-4 text-center bg-zinc-900">
+                <button onclick="fecharVideo()" class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all">
                     Voltar para o Treino
                 </button>
             </div>
@@ -185,10 +195,13 @@
             }
         }
 
-        // Sistema de Player de Vídeo Interno
+        // Sistema de Player de Vídeo com Link Direto de Segurança para o App do Youtube
         function abrirVideo(videoId, titulo) {
             document.getElementById('video-title').innerText = titulo;
-            // Configura o link de incorporação do YouTube (embed) para rodar nativamente dentro do iframe
+            // Configura o link de segurança (botão vermelho) para o aplicativo oficial do YouTube
+            document.getElementById('btn-youtube-direto').href = `https://www.youtube.com/watch?v=${videoId}`;
+            
+            // Configura o player embutido
             document.getElementById('video-iframe').src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`;
             document.getElementById('video-modal').classList.remove('hidden');
         }
@@ -212,7 +225,7 @@
         function abrirCronometro(segundos) {
             if (segundos <= 0) return;
             document.getElementById('timer-modal').classList.remove('hidden');
-            let tempoRestante = segundos;
+            let tempoRestante = seconds = segundos;
             
             clearInterval(timerInterval);
             atualizarTextoTimer(tempoRestante);
