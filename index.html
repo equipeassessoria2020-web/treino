@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treino Condomínio</title>
+    <!-- Tailwind CSS para um design lindo e moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen pb-12">
+
+    <!-- Topbar -->
+    <header class="bg-indigo-600 text-white text-center py-4 shadow-md sticky top-0 z-50">
+        <h1 class="text-xl font-bold tracking-wide"><i class="fa-solid fa-dumbbell mr-2"></i>Treino Condomínio</h1>
+    </header>
+
+    <div class="max-w-md mx-auto px-4 mt-4">
+        
+        <!-- Seleção de Usuário -->
+        <div class="grid grid-cols-2 gap-2 mb-4">
+            <button id="btn-paulino" onclick="setUsuario('Paulino')" class="py-3 px-4 rounded-xl font-bold shadow transition-all duration-200 bg-indigo-600 text-white">
+                <i class="fa-solid fa-user mr-2"></i>Paulino
+            </button>
+            <button id="btn-esposa" onclick="setUsuario('Esposa')" class="py-3 px-4 rounded-xl font-bold shadow transition-all duration-200 bg-white text-gray-700">
+                <i class="fa-solid fa-user-female mr-2"></i>Esposa
+            </button>
+        </div>
+
+        <!-- Informações do Perfil -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-sm text-gray-500">Meta/Objetivo</h2>
+                    <p id="user-objetivo" class="font-bold text-gray-800 text-sm">Carregando...</p>
+                </div>
+                <div class="text-right">
+                    <span id="user-info" class="text-xs bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full font-semibold">53 anos | 67kg</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seleção de Treino (A ou B) -->
+        <div class="flex bg-gray-200 p-1 rounded-xl mb-6">
+            <button id="btn-treinoA" onclick="setTreino('Treino A')" class="flex-1 py-2 text-center rounded-lg font-bold transition-all text-sm bg-white text-indigo-600 shadow-sm">
+                Treino A
+            </button>
+            <button id="btn-treinoB" onclick="setTreino('Treino B')" class="flex-1 py-2 text-center rounded-lg font-bold transition-all text-sm text-gray-600">
+                Treino B
+            </button>
+        </div>
+
+        <!-- Foco do Treino -->
+        <div class="mb-4">
+            <p id="foco-treino" class="text-xs uppercase tracking-wider text-gray-500 font-bold">Foco do Dia</p>
+            <h3 id="foco-descricao" class="text-lg font-bold text-gray-800">Carregando...</h3>
+        </div>
+
+        <!-- Lista de Exercícios -->
+        <div id="lista-exercicios" class="space-y-3">
+            <!-- Os exercícios serão inseridos aqui via Javascript -->
+        </div>
+
+        <!-- Botão de Resetar Treino -->
+        <button onclick="resetarTreino()" class="w-full mt-8 py-3 bg-red-50 text-red-600 border border-red-200 rounded-xl font-semibold text-sm hover:bg-red-100 transition-colors">
+            <i class="fa-solid fa-arrow-rotate-left mr-2"></i>Limpar Marcas de Hoje
+        </button>
+
+    </div>
+
+    <script>
+        // Banco de Dados Unificado
+        const dados = [
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Puxada Alta", equip: "Estação (Barra Superior)", series: 3, reps: "10 a 12", desc: "1 min" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Supino Sentado", equip: "Estação (Braços Articulados)", series: 3, reps: "10 a 12", desc: "1 min" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Elevação Lateral", equip: "Halteres", series: 3, reps: "12", desc: "45 seg" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Tríceps na Polia", equip: "Estação (Corda ou Barra Curta)", series: 3, reps: "12", desc: "45 seg" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Rosca Direta", equip: "Halteres ou Polia Baixa", series: 3, reps: "12", desc: "45 seg" },
+            
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Cadeira Extensora", equip: "Estação (Pernas)", series: 3, reps: "12 a 15", desc: "1 min" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Agachamento Livre", equip: "Peso do Corpo ou Halteres", series: 3, reps: "10 a 12", desc: "1 min" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Glúteo na Polia", equip: "Estação (Polia Baixa com Tornozeleira)", series: 3, reps: "12 (cada perna)", desc: "45 seg" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Passada (Afundo) Estático", equip: "Peso do Corpo ou Halteres", series: 3, reps: "10 (cada perna)", desc: "1 min" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Abdominal Infra ou Supra", equip: "Colchonete / Suporte", series: 3, reps: "15 a 20", desc: "45 seg" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Cardio (Bicicleta)", equip: "Bicicleta Ergofit", series: 1, reps: "15 a 20 min", desc: "Fim do Treino" },
+
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Cadeira Extensora", equip: "Estação (Pernas)", series: 3, reps: "12 a 15", desc: "1 min" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Elevação Pélvica", equip: "Colchonete", series: 3, reps: "15", desc: "1 min" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Agachamento Caixa", equip: "Banco/Cadeira de Apoio", series: 3, reps: "12", desc: "1 min" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Glúteo ou Abdução na Polia", equip: "Estação (Polia Baixa)", series: 3, reps: "12 (cada perna)", desc: "45 seg" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Abdominal Supra", equip: "Colchonete", series: 3, reps: "15 a 20", desc: "45 seg" },
+
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Puxada Alta (Costas)", equip: "Estação (Barra Superior)", series: 3, reps: "12", desc: "1 min" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Supino Sentado (Peitoral)", equip: "Estação (Ajustada Peito)", series: 3, reps: "10 a 12", desc: "1 min" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Elevação Lateral (Ombros)", equip: "Halteres Leves", series: 3, reps: "12", desc: "45 seg" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Bíceps na Polia Baixa", equip: "Estação ou Halteres", series: 3, reps: "12", desc: "45 seg" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Tríceps na Polia (Corda)", equip: "Estação (Corda)", series: 3, reps: "12", desc: "45 seg" }
+        ];
+
+        let usuarioAtivo = "Paulino";
+        let treinoAtivo = "Treino A";
+
+        function setUsuario(nome) {
+            usuarioAtivo = nome;
+            
+            // Alterar estilo dos botões
+            const btnP = document.getElementById('btn-paulino');
+            const btnE = document.getElementById('btn-esposa');
+            if (nome === 'Paulino') {
+                btnP.className = "py-3 px-4 rounded-xl font-bold shadow transition-all duration-200 bg-indigo-600 text-white";
+                btnE.className = "py-3 px-4 rounded-xl font-bold shadow transition-all duration-200 bg-white text-gray-700";
+            } else {
+                btnE.className = "py-3 px-4 rounded-xl font-bold shadow transition-all duration-200 bg-indigo-600 text-white";
+                btnP.className = "py-3 px-4 rounded-xl font-bold shadow transition-all duration-200 bg-white text-gray-700";
+            }
+            
+            render();
+        }
+
+        function setTreino(tipo) {
+            treinoAtivo = tipo;
+
+            // Alterar estilo dos botões
+            const btnA = document.getElementById('btn-treinoA');
+            const btnB = document.getElementById('btn-treinoB');
+            if (tipo === 'Treino A') {
+                btnA.className = "flex-1 py-2 text-center rounded-lg font-bold transition-all text-sm bg-white text-indigo-600 shadow-sm";
+                btnB.className = "flex-1 py-2 text-center rounded-lg font-bold transition-all text-sm text-gray-600";
+            } else {
+                btnB.className = "flex-1 py-2 text-center rounded-lg font-bold transition-all text-sm bg-white text-indigo-600 shadow-sm";
+                btnA.className = "flex-1 py-2 text-center rounded-lg font-bold transition-all text-sm text-gray-600";
+            }
+
+            render();
+        }
+
+        function toggleExercicio(id) {
+            const check = document.getElementById(id);
+            localStorage.setItem(id, check.checked);
+            
+            const card = document.getElementById('card-' + id);
+            if (check.checked) {
+                card.classList.add('opacity-60', 'bg-gray-50');
+            } else {
+                card.classList.remove('opacity-60', 'bg-gray-50');
+            }
+        }
+
+        function resetarTreino() {
+            if(confirm("Deseja desmarcar todos os exercícios deste treino?")) {
+                const filtrados = dados.filter(d => d.usuario === usuarioAtivo && d.treino === treinoAtivo);
+                filtrados.forEach(ex => {
+                    const id = `${usuarioAtivo}-${treinoAtivo}-${ex.exercicio}`.replace(/\s+/g, '-');
+                    localStorage.removeItem(id);
+                });
+                render();
+            }
+        }
+
+        function render() {
+            const filtrados = dados.filter(d => d.usuario === usuarioAtivo && d.treino === treinoAtivo);
+            const perfil = dados.find(d => d.usuario === usuarioAtivo);
+            
+            // Atualizar perfil
+            document.getElementById('user-objetivo').innerText = perfil.objetivo;
+            document.getElementById('user-info').innerText = `${perfil.idade} anos | ${perfil.altura}m | ${perfil.peso}kg`;
+            document.getElementById('foco-descricao').innerText = filtrados[0] ? filtrados[0].foco : "";
+
+            // Atualizar lista
+            const container = document.getElementById('lista-exercicios');
+            container.innerHTML = "";
+
+            filtrados.forEach((ex) => {
+                const idUnico = `${usuarioAtivo}-${treinoAtivo}-${ex.exercicio}`.replace(/\s+/g, '-');
+                const marcado = localStorage.getItem(idUnico) === "true";
+
+                const cardClass = marcado ? "bg-gray-50 border-gray-200 opacity-60" : "bg-white border-white";
+
+                container.innerHTML += `
+                    <div id="card-${idUnico}" class="p-4 rounded-2xl shadow-sm border transition-all duration-150 flex items-center justify-between ${cardClass}">
+                        <div class="flex-1 pr-4">
+                            <h4 class="font-bold text-gray-800 text-base">${ex.exercicio}</h4>
+                            <p class="text-xs text-indigo-600 font-semibold mb-1"><i class="fa-solid fa-wrench mr-1"></i>${ex.equip}</p>
+                            <div class="flex gap-4 mt-2 text-xs text-gray-500">
+                                <span><strong class="text-gray-700">${ex.series}</strong> séries</span>
+                                <span><strong class="text-gray-700">${ex.reps}</strong> repetições</span>
+                                <span><i class="fa-regular fa-clock mr-1"></i>${ex.desc}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <input id="${idUnico}" type="checkbox" onchange="toggleExercicio('${idUnico}')" ${marcado ? 'checked' : ''} 
+                                class="w-7 h-7 text-indigo-600 bg-gray-100 border-gray-300 rounded-lg focus:ring-indigo-500 focus:ring-2 accent-indigo-600">
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Executar a primeira renderização
+        render();
+    </script>
+</body>
+</html>
