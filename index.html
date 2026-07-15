@@ -20,6 +20,27 @@
         </h1>
     </header>
 
+    <!-- Modal de Vídeo Embutido (Roda dentro do App) -->
+    <div id="video-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-yellow-500 rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl">
+            <div class="flex justify-between items-center p-4 border-b border-zinc-800">
+                <h4 id="video-title" class="font-bold text-sm text-yellow-500 truncate">Execução do Exercício</h4>
+                <button onclick="fecharVideo()" class="text-gray-400 hover:text-white text-xl p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <!-- Player de Vídeo do YouTube Embutido -->
+            <div class="relative pb-[56.25%] h-0 bg-black">
+                <iframe id="video-iframe" class="absolute top-0 left-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="p-4 text-center">
+                <button onclick="fecharVideo()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider transition-all">
+                    Voltar para o Treino
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal do Cronômetro de Descanso -->
     <div id="timer-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-zinc-900 border border-yellow-500 p-6 rounded-3xl w-full max-w-xs text-center shadow-2xl">
@@ -89,36 +110,36 @@
     <script>
         const dados = [
             // PAULINO - TREINO A (Membros Superiores e Cardio)
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Puxada Alta", desenho: "⬇️💪", equip: "Estação (Barra Superior)", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, video: "https://www.youtube.com/watch?v=AUnV_E_W0Vw" },
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Supino Sentado", desenho: "➡️🏋️", equip: "Estação (Braços Articulados)", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, video: "https://www.youtube.com/watch?v=FqE2g4q978k" },
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Elevação Lateral", desenho: "👐🏋️", equip: "Halteres", series: 3, reps: "12", desc: "45 seg", descSeg: 45, video: "https://www.youtube.com/watch?v=gS6vU-qKzic" },
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Tríceps na Polia", desenho: "⬇️🔌", equip: "Estação (Corda)", series: 3, reps: "12", desc: "45 seg", descSeg: 45, video: "https://www.youtube.com/watch?v=fS79X2Z2C0s" },
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Rosca Direta", desenho: "⬆️💪", equip: "Halteres ou Polia Baixa", series: 3, reps: "12", desc: "45 seg", descSeg: 45, video: "https://www.youtube.com/watch?v=mE98YcHeP6g" },
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Cardio: Esteira", desenho: "🏃‍♂️💨", equip: "Esteira (Corrida Leve/Caminhada)", series: "Única", reps: "15 a 20 min", desc: "Fim do Treino", descSeg: 0, video: "https://www.youtube.com/watch?v=E_P9Y6pQZ4w" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Puxada Alta", desenho: "⬇️💪", equip: "Estação (Barra Superior)", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, videoId: "AUnV_E_W0Vw" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Supino Sentado", desenho: "➡️🏋️", equip: "Estação (Braços Articulados)", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, videoId: "FqE2g4q978k" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Elevação Lateral", desenho: "👐🏋️", equip: "Halteres", series: 3, reps: "12", desc: "45 seg", descSeg: 45, videoId: "gS6vU-qKzic" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Tríceps na Polia", desenho: "⬇️🔌", equip: "Estação (Corda)", series: 3, reps: "12", desc: "45 seg", descSeg: 45, videoId: "fS79X2Z2C0s" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Rosca Direta", desenho: "⬆️💪", equip: "Halteres ou Polia Baixa", series: 3, reps: "12", desc: "45 seg", descSeg: 45, videoId: "mE98YcHeP6g" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Cardio: Esteira", desenho: "🏃‍♂️💨", equip: "Esteira (Corrida Leve/Caminhada)", series: "Única", reps: "15 a 20 min", desc: "Fim do Treino", descSeg: 0, videoId: "E_P9Y6pQZ4w" },
 
             // PAULINO - TREINO B (Membros Inferiores e Abdômen)
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Cadeira Extensora", desenho: "🦵⚽", equip: "Estação (Pernas)", series: 3, reps: "12 a 15", desc: "1 min", descSeg: 60, video: "https://www.youtube.com/watch?v=W_e5r7IqIms" },
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Agachamento Livre", desenho: "🍑🧘‍♂️", equip: "Peso do Corpo ou Halteres", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, video: "https://www.youtube.com/watch?v=y_1p06V_g3M" },
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Glúteo na Polia", desenho: "🍑🔌", equip: "Estação (Polia Baixa)", series: 3, reps: "12 (cada)", desc: "45 seg", descSeg: 45, video: "https://www.youtube.com/watch?v=84u94PAtZcI" },
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Passada Estática (Afundo)", desenho: "🚶‍♂️🏋️", equip: "Peso do Corpo ou Halteres", series: 3, reps: "10 (cada)", desc: "1 min", descSeg: 60, video: "https://www.youtube.com/watch?v=gS6T6Bq6szo" },
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Abdominal Roda ou Supra", desenho: "🍫🔄", equip: "Colchonete / Roda Abdominal", series: 3, reps: "15 a 20", desc: "45 seg", descSeg: 45, video: "https://www.youtube.com/watch?v=M9m-p9G3V6g" },
-            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Cardio: Bicicleta", desenho: "🚴‍♂️💨", equip: "Bicicleta Ergofit", series: "Única", reps: "15 a 20 min", desc: "Fim do Treino", descSeg: 0, video: "https://www.youtube.com/watch?v=KkFofF3496Y" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Cadeira Extensora", desenho: "🦵⚽", equip: "Estação (Pernas)", series: 3, reps: "12 a 15", desc: "1 min", descSeg: 60, videoId: "W_e5r7IqIms" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Agachamento Livre", desenho: "🍑🧘‍♂️", equip: "Peso do Corpo ou Halteres", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, videoId: "y_1p06V_g3M" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Glúteo na Polia", desenho: "🍑🔌", equip: "Estação (Polia Baixa)", series: 3, reps: "12 (cada)", desc: "45 seg", descSeg: 45, videoId: "84u94PAtZcI" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Passada Estática (Afundo)", desenho: "🚶‍♂️🏋️", equip: "Peso do Corpo ou Halteres", series: 3, reps: "10 (cada)", desc: "1 min", descSeg: 60, videoId: "gS6T6Bq6szo" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Abdominal Roda ou Supra", desenho: "🍫🔄", equip: "Colchonete / Roda Abdominal", series: 3, reps: "15 a 20", desc: "45 seg", descSeg: 45, videoId: "M9m-p9G3V6g" },
+            { usuario: "Paulino", idade: 53, peso: 67, altura: 1.65, objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Cardio: Bicicleta", desenho: "🚴‍♂️💨", equip: "Bicicleta Ergofit", series: "Única", reps: "15 a 20 min", desc: "Fim do Treino", descSeg: 0, videoId: "KkFofF3496Y" },
 
             // ESPOSA - TREINO A (Coxas, Glúteos e Abdômen)
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Cadeira Extensora", desenho: "🦵⚽", equip: "Estação (Pernas)", series: 3, reps: "12 a 15", desc: "1 min", descSeg: 60, video: "https://www.youtube.com/watch?v=W_e5r7IqIms" },
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Elevação Pélvica", desenho: "🆙🍑", equip: "Colchonete", series: 3, reps: "15", desc: "1 min", descSeg: 60, video: "https://www.youtube.com/watch?v=kY31f13u-v8" },
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Agachamento Caixa", desenho: "🪑🧘‍♀️", equip: "Banco ou Cadeira", series: 3, reps: "12", desc: "1 min", descSeg: 60, video: "https://www.youtube.com/watch?v=y_1p06V_g3M" },
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Glúteo na Polia", desenho: "🍑🔌", equip: "Estação (Polia Baixa)", series: 3, reps: "12 (cada)", desc: "45 seg", descSeg: 45, video: "https://www.youtube.com/watch?v=84u94PAtZcI" },
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Abdominal Supra", desenho: "🍫🔄", equip: "Colchonete", series: 3, reps: "15 a 20", desc: "45 seg", descSeg: 45, video: "https://www.youtube.com/watch?v=M9m-p9G3V6g" },
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Cardio: Bicicleta", desenho: "🚴‍♀️💨", equip: "Bicicleta Ergofit", series: "Única", reps: "20 min", desc: "Fim do Treino", descSeg: 0, video: "https://www.youtube.com/watch?v=KkFofF3496Y" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Cadeira Extensora", desenho: "🦵⚽", equip: "Estação (Pernas)", series: 3, reps: "12 a 15", desc: "1 min", descSeg: 60, videoId: "W_e5r7IqIms" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Elevação Pélvica", desenho: "🆙🍑", equip: "Colchonete", series: 3, reps: "15", desc: "1 min", descSeg: 60, videoId: "kY31f13u-v8" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Agachamento Caixa", desenho: "🪑🧘‍♀️", equip: "Banco ou Cadeira", series: 3, reps: "12", desc: "1 min", descSeg: 60, videoId: "y_1p06V_g3M" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Glúteo na Polia", desenho: "🍑🔌", equip: "Estação (Polia Baixa)", series: 3, reps: "12 (cada)", desc: "45 seg", descSeg: 45, videoId: "84u94PAtZcI" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Abdominal Supra", desenho: "🍫🔄", equip: "Colchonete", series: 3, reps: "15 a 20", desc: "45 seg", descSeg: 45, videoId: "M9m-p9G3V6g" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Cardio: Bicicleta", desenho: "🚴‍♀️💨", equip: "Bicicleta Ergofit", series: "Única", reps: "20 min", desc: "Fim do Treino", descSeg: 0, videoId: "KkFofF3496Y" },
 
             // ESPOSA - TREINO B (Membros Superiores)
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Puxada Alta (Costas)", desenho: "⬇️💪", equip: "Estação (Barra Superior)", series: 3, reps: "12", desc: "1 min", descSeg: 60, video: "https://www.youtube.com/watch?v=AUnV_E_W0Vw" },
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Supino Sentado", desenho: "➡️🏋️‍♀️", equip: "Estação (Braços Articulados)", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, video: "https://www.youtube.com/watch?v=FqE2g4q978k" },
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Elevação Lateral", desenho: "👐🏋️‍♀️", equip: "Halteres Leves", series: 3, reps: "12", desc: "45 seg", descSeg: 45, video: "https://www.youtube.com/watch?v=gS6vU-qKzic" },
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Bíceps na Polia Baixa", desenho: "⬆️💪", equip: "Estação (Barra Curta)", series: 3, reps: "12", desc: "45 seg", descSeg: 45, video: "https://www.youtube.com/watch?v=mE98YcHeP6g" },
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Tríceps na Polia (Corda)", desenho: "⬇️🔌", equip: "Estação (Corda)", series: 3, reps: "12", desc: "45 seg", descSeg: 45, video: "https://www.youtube.com/watch?v=fS79X2Z2C0s" },
-            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Cardio: Esteira", desenho: "🏃‍♀️💨", equip: "Esteira (Caminhada Firme)", series: "Única", reps: "20 min", desc: "Fim do Treino", descSeg: 0, video: "https://www.youtube.com/watch?v=E_P9Y6pQZ4w" }
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Puxada Alta (Costas)", desenho: "⬇️💪", equip: "Estação (Barra Superior)", series: 3, reps: "12", desc: "1 min", descSeg: 60, videoId: "AUnV_E_W0Vw" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Supino Sentado", desenho: "➡️🏋️‍♀️", equip: "Estação (Braços Articulados)", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, videoId: "FqE2g4q978k" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Elevação Lateral", desenho: "👐🏋️‍♀️", equip: "Halteres Leves", series: 3, reps: "12", desc: "45 seg", descSeg: 45, videoId: "gS6vU-qKzic" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Bíceps na Polia Baixa", desenho: "⬆️💪", equip: "Estação (Barra Curta)", series: 3, reps: "12", desc: "45 seg", descSeg: 45, videoId: "mE98YcHeP6g" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Tríceps na Polia (Corda)", desenho: "⬇️🔌", equip: "Estação (Corda)", series: 3, reps: "12", desc: "45 seg", descSeg: 45, videoId: "fS79X2Z2C0s" },
+            { usuario: "Esposa", idade: 48, peso: 77, altura: 1.67, objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Cardio: Esteira", desenho: "🏃‍♀️💨", equip: "Esteira (Caminhada Firme)", series: "Única", reps: "20 min", desc: "Fim do Treino", descSeg: 0, videoId: "E_P9Y6pQZ4w" }
         ];
 
         let usuarioAtivo = "Paulino";
@@ -164,13 +185,26 @@
             }
         }
 
+        // Sistema de Player de Vídeo Interno
+        function abrirVideo(videoId, titulo) {
+            document.getElementById('video-title').innerText = titulo;
+            // Configura o link de incorporação do YouTube (embed) para rodar nativamente dentro do iframe
+            document.getElementById('video-iframe').src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0`;
+            document.getElementById('video-modal').classList.remove('hidden');
+        }
+
+        function fecharVideo() {
+            document.getElementById('video-iframe').src = "";
+            document.getElementById('video-modal').classList.add('hidden');
+        }
+
         // Sistema de Som e Fala por Inteligência de Voz do Navegador
         function falar(texto) {
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Para qualquer fala anterior
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(texto);
                 utterance.lang = 'pt-BR';
-                utterance.rate = 1.1; // Velocidade da voz
+                utterance.rate = 1.1;
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -188,7 +222,6 @@
                 tempoRestante--;
                 atualizarTextoTimer(tempoRestante);
 
-                // Avisos por áudio em momentos importantes
                 if (tempoRestante === 30) {
                     falar("Trinta segundos restantes.");
                 } else if (tempoRestante === 10) {
@@ -251,7 +284,7 @@
                 // Botão do cronômetro com áudio se houver tempo de descanso
                 const btnDescanso = ex.descSeg > 0 
                     ? `<button onclick="abrirCronometro(${ex.descSeg})" class="mt-2.5 w-full bg-zinc-800 hover:bg-zinc-750 text-gray-300 font-bold py-2 rounded-xl text-xs flex items-center justify-center border border-zinc-700/50">
-                            <i class="fa-regular fa-clock mr-1.5 text-yellow-500 animate-spin-slow"></i>Contar Descanso (${ex.desc})
+                            <i class="fa-regular fa-clock mr-1.5 text-yellow-500"></i>Contar Descanso (${ex.desc})
                        </button>` 
                     : `<div class="mt-2 text-xs text-gray-500 font-medium py-1.5"><i class="fa-solid fa-flag-checkered mr-1.5 text-yellow-500"></i>${ex.desc}</div>`;
 
@@ -277,9 +310,9 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-2 mt-3 pt-1">
-                            <a href="${ex.video}" target="_blank" class="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 font-bold py-2 rounded-xl text-xs flex items-center justify-center border border-yellow-500/20">
-                                <i class="fa-brands fa-youtube mr-1.5 text-red-500 text-sm"></i>Como Fazer
-                            </a>
+                            <button onclick="abrirVideo('${ex.videoId}', '${ex.exercicio}')" class="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 font-bold py-2 rounded-xl text-xs flex items-center justify-center border border-yellow-500/20">
+                                <i class="fa-solid fa-play mr-1.5 text-yellow-500 text-sm"></i>Como Fazer
+                            </button>
                             ${btnDescanso}
                         </div>
                     </div>
