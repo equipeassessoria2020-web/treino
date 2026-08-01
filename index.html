@@ -3,299 +3,481 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Condomínio</title>
-    <!-- Tailwind CSS para design moderno estilo Smart Fit -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Una Bela - Espaço de Beleza & Estética</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        /* --- RESET E VARIÁVEIS --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        :root {
+            --primary: #d4af37; /* Dourado elegante */
+            --primary-hover: #b89628;
+            --bg-dark: #121212;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-light: #f5f5f5;
+            --text-muted: #cccccc;
+            --whatsapp-green: #25d366;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* --- FUNDO DO AMBIENTE COM FUMÊ (OVERLAY) --- */
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Imagem de fundo do ambiente do salão */
+            background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -2;
+        }
+
+        /* Camada Fumê (Dark Overlay) */
+        .fume-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg, 
+                rgba(0, 0, 0, 0.82) 0%, 
+                rgba(18, 18, 18, 0.92) 50%, 
+                rgba(10, 10, 10, 0.98) 100%
+            );
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: -1;
+        }
+
+        /* --- CONTAINER PRINCIPAL --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 16px 60px 16px;
+        }
+
+        /* --- CABEÇALHO / PERFIL --- */
+        .profile-header {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 25px;
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            object-fit: cover;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(37, 211, 102, 0.15);
+            color: #4cd964;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .rating {
+            color: #ffc107;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .rating span {
+            color: var(--text-muted);
+            margin-left: 5px;
+        }
+
+        .address-info {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .address-info i {
+            color: var(--primary);
+            margin-right: 6px;
+        }
+
+        /* --- BOTÕES DE AÇÃO RÁPIDA --- */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .btn-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-action.primary {
+            background: var(--whatsapp-green);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-action.primary:hover {
+            background: #1eb857;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        /* --- MENU DE CATEGORIAS --- */
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin: 30px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 8px;
+        }
+
+        /* --- CARDS DE SERVIÇO --- */
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--primary);
+            transform: scale(1.01);
+        }
+
+        .service-info {
+            flex: 1;
+            padding-right: 15px;
+        }
+
+        .service-name {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .service-details {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .service-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .btn-book {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-book:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        /* --- INFORMAÇÕES E HORÁRIOS --- */
+        .info-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 35px;
+            backdrop-filter: blur(8px);
+        }
+
+        .info-box h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .schedule-list {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .schedule-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        /* --- RODAPÉ --- */
+        footer {
+            text-align: center;
+            padding: 30px 0 10px 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 480px) {
+            .brand-name {
+                font-size: 1.6rem;
+            }
+            .service-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .btn-book {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen pb-24">
+<body>
 
-    <!-- Header Estilo Smart Fit -->
-    <header class="bg-black border-b border-yellow-500 text-center py-5 shadow-lg sticky top-0 z-50">
-        <h1 class="text-xl font-extrabold tracking-wider text-yellow-500 uppercase flex items-center justify-center">
-            <i class="fa-solid fa-circle-play mr-2"></i>Smart Condomínio
-        </h1>
-    </header>
+    <!-- Fundo do Ambiente e Camada Fumê -->
+    <div class="background-overlay"></div>
+    <div class="fume-overlay"></div>
 
-    <!-- Modal do Cronômetro de Descanso -->
-    <div id="timer-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-zinc-900 border border-yellow-500 p-6 rounded-3xl w-full max-w-xs text-center shadow-2xl">
-            <h4 class="text-gray-400 font-bold uppercase text-xs tracking-widest mb-2">Tempo de Descanso</h4>
-            <div id="timer-display" class="text-5xl font-black text-yellow-500 my-4">00:00</div>
-            <p class="text-xs text-gray-400 mb-4">Aproveite para respirar e beber água.</p>
-            <button onclick="fecharCronometro()" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-extrabold py-3 rounded-xl text-sm uppercase transition-all">
-                Pular Descanso
-            </button>
-        </div>
-    </div>
+    <div class="container">
 
-    <div class="max-w-md mx-auto px-4 mt-6">
-        
-        <!-- Seleção de Usuário -->
-        <div class="grid grid-cols-2 gap-2 mb-6">
-            <button id="btn-paulino" onclick="setUsuario('Paulino')" class="py-3.5 px-4 rounded-xl font-black uppercase text-xs tracking-wider shadow transition-all duration-200 bg-yellow-500 text-black">
-                <i class="fa-solid fa-user mr-1.5"></i>Paulino
-            </button>
-            <button id="btn-esposa" onclick="setUsuario('Esposa')" class="py-3.5 px-4 rounded-xl font-black uppercase text-xs tracking-wider shadow transition-all duration-200 bg-zinc-900 text-gray-400 border border-zinc-800">
-                <i class="fa-solid fa-user-tie mr-1.5"></i>Esposa
-            </button>
-        </div>
-
-        <!-- Meta e Dados do Aluno -->
-        <div class="bg-zinc-900 p-4 rounded-2xl border border-zinc-850 mb-6">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h2 class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Foco do Aluno</h2>
-                    <p id="user-objetivo" class="font-extrabold text-white text-sm mt-0.5">Carregando...</p>
-                </div>
-                <div class="text-right">
-                    <span id="user-info" class="text-[10px] bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 px-2.5 py-1 rounded-full font-bold">53 anos | 67kg</span>
-                </div>
+        <!-- CABEÇALHO / PERFIL DO SALÃO -->
+        <header class="profile-header">
+            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=300&auto=format&fit=crop" alt="Una Bela Logo" class="avatar">
+            <h1 class="brand-name">Una Bela</h1>
+            
+            <div class="badge-status">
+                <i class="fa-solid fa-circle" style="font-size: 8px;"></i> Aberto Agora
             </div>
+
+            <div class="rating">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <span>5.0 (120+ avaliações)</span>
+            </div>
+
+            <p class="address-info">
+                <i class="fa-solid fa-location-dot"></i> Av. Principal, 1000 - Centro, Itapevi - SP<br>
+                Especialistas em Unhas, Cabelo & Estética
+            </p>
+        </header>
+
+        <!-- BOTOES DE AÇÃO RÁPIDA -->
+        <div class="action-buttons">
+            <a href="https://wa.me/5511999999999?text=Olá,%20gostaria%20de%20agendar%20um%20horário!" target="_blank" class="btn-action primary">
+                <i class="fa-brands fa-whatsapp"></i> Agendar
+            </a>
+            <a href="https://maps.google.com" target="_blank" class="btn-action">
+                <i class="fa-solid fa-map-pin"></i> Como Chegar
+            </a>
+            <a href="#horarios" class="btn-action">
+                <i class="fa-regular fa-clock"></i> Horários
+            </a>
         </div>
 
-        <!-- Abas de Treino A / B -->
-        <div class="flex bg-zinc-900 p-1.5 rounded-xl mb-6 border border-zinc-800">
-            <button id="btn-treinoA" onclick="setTreino('Treino A')" class="flex-1 py-2.5 text-center rounded-lg font-black uppercase text-xs tracking-wider transition-all bg-yellow-500 text-black shadow">
-                Treino A
-            </button>
-            <button id="btn-treinoB" onclick="setTreino('Treino B')" class="flex-1 py-2.5 text-center rounded-lg font-black uppercase text-xs tracking-wider transition-all text-gray-400">
-                Treino B
-            </button>
+        <!-- SEÇÃO: CABELO -->
+        <h2 class="category-title"><i class="fa-solid fa-scissors"></i> Cabelo & Penteados</h2>
+
+        <div class="service-card">
+            <div class="service-info">
+                <div class="service-name">Corte Feminino & Escova</div>
+                <div class="service-details"><i class="fa-regular fa-clock"></i> 60 min</div>
+                <div class="service-price">R$ 90,00</div>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Corte%20Feminino%20e%20Escova" class="btn-book">Agendar</a>
         </div>
 
-        <!-- Descrição do Foco do Dia -->
-        <div class="mb-6 bg-zinc-900/40 p-3 rounded-xl border border-zinc-900">
-            <p id="foco-treino" class="text-[10px] uppercase tracking-widest text-yellow-500 font-black">Foco de Hoje</p>
-            <h3 id="foco-descricao" class="text-base font-extrabold text-white">Carregando...</h3>
+        <div class="service-card">
+            <div class="service-info">
+                <div class="service-name">Hidratação Profunda / Nutrição</div>
+                <div class="service-details"><i class="fa-regular fa-clock"></i> 45 min</div>
+                <div class="service-price">R$ 120,00</div>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Hidratação%20Profunda" class="btn-book">Agendar</a>
         </div>
 
-        <!-- Lista de Exercícios -->
-        <div id="lista-exercicios" class="space-y-4">
-            <!-- Exercícios carregados dinamicamente -->
+        <div class="service-card">
+            <div class="service-info">
+                <div class="service-name">Mechas / Meias Mechas</div>
+                <div class="service-details"><i class="fa-regular fa-clock"></i> 180 min</div>
+                <div class="service-price">R$ 280,00</div>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Mechas" class="btn-book">Agendar</a>
         </div>
 
-        <!-- Botão Reset -->
-        <button onclick="resetarTreino()" class="w-full mt-10 py-3.5 bg-zinc-900 hover:bg-zinc-850 text-red-500 border border-red-500/20 rounded-xl font-bold text-xs uppercase tracking-widest transition-all">
-            <i class="fa-solid fa-trash-can mr-2"></i>Resetar Progresso de Hoje
-        </button>
+
+        <!-- SEÇÃO: UNHAS -->
+        <h2 class="category-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Unhas & Manicure</h2>
+
+        <div class="service-card">
+            <div class="service-info">
+                <div class="service-name">Manicure & Pedicure Completo</div>
+                <div class="service-details"><i class="fa-regular fa-clock"></i> 60 min</div>
+                <div class="service-price">R$ 65,00</div>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Mão%20e%20Pé" class="btn-book">Agendar</a>
+        </div>
+
+        <div class="service-card">
+            <div class="service-info">
+                <div class="service-name">Alongamento em Gel (Aplicação)</div>
+                <div class="service-details"><i class="fa-regular fa-clock"></i> 120 min</div>
+                <div class="service-price">R$ 150,00</div>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Alongamento%20em%20Gel" class="btn-book">Agendar</a>
+        </div>
+
+        <div class="service-card">
+            <div class="service-info">
+                <div class="service-name">Manutenção de Gel</div>
+                <div class="service-details"><i class="fa-regular fa-clock"></i> 90 min</div>
+                <div class="service-price">R$ 95,00</div>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Manutenção%20de%20Gel" class="btn-book">Agendar</a>
+        </div>
+
+
+        <!-- SEÇÃO: SOBRANCELHAS & CÍLIOS -->
+        <h2 class="category-title"><i class="fa-solid fa-eye"></i> Olhar & Estética Facial</h2>
+
+        <div class="service-card">
+            <div class="service-info">
+                <div class="service-name">Design de Sobrancelhas com Henna</div>
+                <div class="service-details"><i class="fa-regular fa-clock"></i> 40 min</div>
+                <div class="service-price">R$ 50,00</div>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Design%20de%20Sobrancelhas" class="btn-book">Agendar</a>
+        </div>
+
+        <div class="service-card">
+            <div class="service-info">
+                <div class="service-name">Extensão de Cílios (Volume Russo)</div>
+                <div class="service-details"><i class="fa-regular fa-clock"></i> 120 min</div>
+                <div class="service-price">R$ 160,00</div>
+            </div>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Extensão%20de%20Cílios" class="btn-book">Agendar</a>
+        </div>
+
+
+        <!-- HORÁRIOS DE FUNCIONAMENTO -->
+        <div class="info-box" id="horarios">
+            <h3><i class="fa-regular fa-calendar-check"></i> Horário de Atendimento</h3>
+            <ul class="schedule-list">
+                <li class="schedule-item">
+                    <span>Terça a Sexta-feira</span>
+                    <span>09:00 - 19:00</span>
+                </li>
+                <li class="schedule-item">
+                    <span>Sábado</span>
+                    <span>08:30 - 18:00</span>
+                </li>
+                <li class="schedule-item">
+                    <span>Domingo e Segunda-feira</span>
+                    <span>Fechado</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- RODAPÉ -->
+        <footer>
+            <p>© Una Bela - Todos os direitos reservados</p>
+            <p style="margin-top: 5px;">Hospedado no GitHub Pages</p>
+        </footer>
 
     </div>
 
-    <!-- Script de Funcionamento -->
-    <script>
-        const dados = [
-            // PAULINO - TREINO A (Membros Superiores e Cardio)
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Puxada Alta", desenho: "⬇️💪", dicatexto: "Sente-se na estação de frente para o peso, segure a barra superior e puxe-a até o peito.", equip: "Estação (Barra Superior)", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, buscaQuery: "como fazer puxada alta na estacao de musculacao multifuncional" },
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Supino Sentado", desenho: "➡️🏋️", dicatexto: "Apoie bem as costas, segure as manoplas centrais e empurre para frente na linha do peito.", equip: "Estação (Braços Articulados)", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, buscaQuery: "supino sentado na estacao de musculacao multifuncional" },
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Elevação Lateral", desenho: "👐🏋️", dicatexto: "Fique em pé ao lado do suporte de halteres, eleve os braços para os lados até a altura do ombro.", equip: "Halteres", series: 3, reps: "12", desc: "45 seg", descSeg: 45, buscaQuery: "elevacao lateral halteres execucao correta" },
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Tríceps na Polia", desenho: "⬇️🔌", dicatexto: "Conecte a corda na polia alta da estação, mantenha os cotovelos colados e empurre para baixo.", equip: "Estação (Corda)", series: 3, reps: "12", desc: "45 seg", descSeg: 45, buscaQuery: "triceps na polia alta da estacao de musculacao" },
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Rosca Direta", desenho: "⬆️💪", dicatexto: "Conecte a barra curta na polia baixa da estação ou use os halteres para dobrar o braço subindo as mãos.", equip: "Halteres ou Polia Baixa", series: 3, reps: "12", desc: "45 seg", descSeg: 45, buscaQuery: "rosca direta polia baixa na estacao de musculacao" },
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino A", foco: "Membros Superiores e Cardio", exercicio: "Cardio: Esteira", desenho: "🏃‍♂️💨", dicatexto: "Termine com uma corrida leve ou caminhada firme na esteira do condomínio.", equip: "Esteira (Corrida Leve/Caminhada)", series: "Única", reps: "15 a 20 min", desc: "Fim do Treino", descSeg: 0, buscaQuery: "caminhada acelerada esteira esteira movimento correto" },
-
-            // PAULINO - TREINO B (Membros Inferiores e Abdômen)
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Cadeira Extensora", desenho: "🦵⚽", dicatexto: "Sente-se, posicione os pés atrás do rolo estofado inferior e empurre as pernas esticando os joelhos.", equip: "Estação (Pernas)", series: 3, reps: "12 a 15", desc: "1 min", descSeg: 60, buscaQuery: "extensor de pernas na estacao de musculacao multifuncional" },
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Agachamento Livre", desenho: "🍑🧘‍♂️", dicatexto: "Faça o movimento de agachar jogando o bumbum para trás e as mãos para frente para dar equilíbrio.", equip: "Peso do Corpo ou Halteres", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, buscaQuery: "como fazer agachamento livre com halteres" },
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Glúteo na Polia", desenho: "🍑🔌", dicatexto: "Prenda a tornozeleira na polia baixa e dê um chute para trás, mantendo o corpo inclinado.", equip: "Estação (Polia Baixa)", series: 3, reps: "12 (cada)", desc: "45 seg", descSeg: 45, buscaQuery: "gluteo na polia baixa estacao de musculacao" },
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Passada Estática (Afundo)", desenho: "🚶‍♂️🏋️", dicatexto: "Dê um passo à frente, desça flexionando os joelhos a 90 graus e suba usando a força da perna da frente.", equip: "Peso do Corpo ou Halteres", series: 3, reps: "10 (cada)", desc: "1 min", descSeg: 60, buscaQuery: "exercicio afundo estatico como fazer" },
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Abdominal Roda ou Supra", desenho: "🍫🔄", dicatexto: "Deitado no colchonete, flexione o tronco levantando ligeiramente as costas e concentrando a força no abdômen.", equip: "Colchonete / Roda Abdominal", series: 3, reps: "15 a 20", desc: "45 seg", descSeg: 45, buscaQuery: "abdominal supra classico colchonete como fazer" },
-            { usuario: "Paulino", objetivo: "Perder barriga e ganhar massa", treino: "Treino B", foco: "Membros Inferiores e Abdômen", exercicio: "Cardio: Bicicleta", desenho: "🚴‍♂️💨", dicatexto: "Pedale em ritmo firme na bicicleta ergométrica preta do condomínio.", equip: "Bicicleta Ergofit", series: "Única", reps: "15 a 20 min", desc: "Fim do Treino", descSeg: 0, buscaQuery: "treino de bicicleta ergometrica" },
-
-            // ESPOSA - TREINO A (Coxas, Glúteos e Abdômen)
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Cadeira Extensora", desenho: "🦵⚽", dicatexto: "Sente-se no aparelho da estação, apoie os pés atrás do rolo estofado e empurre para cima esticando os joelhos.", equip: "Estação (Pernas)", series: 3, reps: "12 a 15", desc: "1 min", descSeg: 60, buscaQuery: "extensor de pernas na estacao de musculacao multifuncional" },
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Elevação Pélvica", desenho: "🆙🍑", dicatexto: "Deite-se de costas no colchonete azul, coloque os pés firmes no chão e suba o quadril contraindo o bumbum.", equip: "Colchonete", series: 3, reps: "15", desc: "1 min", descSeg: 60, buscaQuery: "elevacao pelvica no colchonete como fazer" },
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Agachamento Caixa", desenho: "🪑🧘‍♀️", dicatexto: "Fique na frente de uma cadeira ou do banco, agache devagar até encostar nela e suba.", equip: "Banco ou Cadeira", series: 3, reps: "12", desc: "1 min", descSeg: 60, buscaQuery: "agachamento caixa banco como fazer" },
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Glúteo na Polia", desenho: "🍑🔌", dicatexto: "Use a tornozeleira conectada na polia de baixo da estação e estenda a perna para trás segurando o aparelho.", equip: "Estação (Polia Baixa)", series: 3, reps: "12 (cada)", desc: "45 seg", descSeg: 45, buscaQuery: "gluteo na polia baixa estacao de musculacao" },
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Abdominal Supra", desenho: "🍫🔄", dicatexto: "Faça o abdominal no colchonete azul, levantando os ombros com os pés firmes apoiados no chão.", equip: "Colchonete", series: 3, reps: "15 a 20", desc: "45 seg", descSeg: 45, buscaQuery: "abdominal supra classico colchonete como fazer" },
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino A", foco: "Coxas, Glúteos e Abdômen", exercicio: "Cardio: Bicicleta", desenho: "🚴‍♀️💨", dicatexto: "Finalize o treino pedalando na bicicleta para queima de gordura e condicionamento.", equip: "Bicicleta Ergofit", series: "Única", reps: "20 min", desc: "Fim do Treino", descSeg: 0, buscaQuery: "treino de bicicleta ergometrica" },
-
-            // ESPOSA - TREINO B (Membros Superiores)
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Puxada Alta (Costas)", desenho: "⬇️💪", dicatexto: "Sente-se na estação de frente para o peso, use a barra superior e puxe em direção ao peito.", equip: "Estação (Barra Superior)", series: 3, reps: "12", desc: "1 min", descSeg: 60, buscaQuery: "como fazer puxada alta na estacao de musculacao multifuncional" },
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Supino Sentado", desenho: "➡️🏋️‍♀️", dicatexto: "Encoste bem as costas no banco da estação e empurre as manoplas frontais para frente.", equip: "Estação (Braços Articulados)", series: 3, reps: "10 a 12", desc: "1 min", descSeg: 60, buscaQuery: "supino sentado na estacao de musculacao multifuncional" },
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Elevação Lateral", desenho: "👐🏋️‍♀️", dicatexto: "Use halteres leves nas laterais do corpo e suba os braços até a altura dos ombros.", equip: "Halteres Leves", series: 3, reps: "12", desc: "45 seg", descSeg: 45, buscaQuery: "elevacao lateral com halteres" },
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Bíceps na Polia Baixa", desenho: "⬆️💪", dicatexto: "Segure a barra curta conectada na polia de baixo da estação e puxe dobrando os braços para cima.", equip: "Estação (Barra Curta)", series: 3, reps: "12", desc: "45 seg", descSeg: 45, buscaQuery: "rosca direta polia baixa na estacao de musculacao" },
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Tríceps na Polia (Corda)", desenho: "⬇️🔌", dicatexto: "Segure a corda na polia alta da estação e estique os braços para baixo colando os cotovelos nas costelas.", equip: "Estação (Corda)", series: 3, reps: "12", desc: "45 seg", descSeg: 45, buscaQuery: "triceps na polia alta da estacao de musculacao" },
-            { usuario: "Esposa", objetivo: "Recomposição e tonificação", treino: "Treino B", foco: "Costas, Braços e Ombros", exercicio: "Cardio: Esteira", desenho: "🏃‍♀️💨", dicatexto: "Termine fazendo uma caminhada firme de 20 minutos na esteira para queimar calorias.", equip: "Esteira (Caminhada Firme)", series: "Única", reps: "20 min", desc: "Fim do Treino", descSeg: 0, buscaQuery: "caminhada acelerada esteira esteira movimento correto" }
-        ];
-
-        let usuarioAtivo = "Paulino";
-        let treinoAtivo = "Treino A";
-        let timerInterval;
-
-        function setUsuario(nome) {
-            usuarioAtivo = nome;
-            const btnP = document.getElementById('btn-paulino');
-            const btnE = document.getElementById('btn-esposa');
-            if (nome === 'Paulino') {
-                btnP.className = "py-3.5 px-4 rounded-xl font-black uppercase text-xs tracking-wider shadow transition-all duration-200 bg-yellow-500 text-black";
-                btnE.className = "py-3.5 px-4 rounded-xl font-black uppercase text-xs tracking-wider shadow transition-all duration-200 bg-zinc-900 text-gray-400 border border-zinc-800";
-            } else {
-                btnE.className = "py-3.5 px-4 rounded-xl font-black uppercase text-xs tracking-wider shadow transition-all duration-200 bg-yellow-500 text-black";
-                btnP.className = "py-3.5 px-4 rounded-xl font-black uppercase text-xs tracking-wider shadow transition-all duration-200 bg-zinc-900 text-gray-400 border border-zinc-800";
-            }
-            render();
-        }
-
-        function setTreino(tipo) {
-            treinoAtivo = tipo;
-            const btnA = document.getElementById('btn-treinoA');
-            const btnB = document.getElementById('btn-treinoB');
-            if (tipo === 'Treino A') {
-                btnA.className = "flex-1 py-2.5 text-center rounded-lg font-black uppercase text-xs tracking-wider transition-all bg-yellow-500 text-black shadow";
-                btnB.className = "flex-1 py-2.5 text-center rounded-lg font-black uppercase text-xs tracking-wider transition-all text-gray-400";
-            } else {
-                btnB.className = "flex-1 py-2.5 text-center rounded-lg font-black uppercase text-xs tracking-wider transition-all bg-yellow-500 text-black shadow";
-                btnA.className = "flex-1 py-2.5 text-center rounded-lg font-black uppercase text-xs tracking-wider transition-all text-gray-400";
-            }
-            render();
-        }
-
-        function toggleExercicio(id) {
-            const check = document.getElementById(id);
-            localStorage.setItem(id, check.checked);
-            const card = document.getElementById('card-' + id);
-            if (check.checked) {
-                card.classList.add('opacity-40', 'bg-zinc-950/20');
-            } else {
-                card.classList.remove('opacity-40', 'bg-zinc-950/20');
-            }
-        }
-
-        // Sistema de Som e Fala por Inteligência de Voz do Navegador
-        function falar(texto) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(texto);
-                utterance.lang = 'pt-BR';
-                utterance.rate = 1.1;
-                window.speechSynthesis.speak(utterance);
-            }
-        }
-
-        function abrirCronometro(segundos) {
-            if (segundos <= 0) return;
-            document.getElementById('timer-modal').classList.remove('hidden');
-            let tempoRestante = segundos;
-            
-            clearInterval(timerInterval);
-            atualizarTextoTimer(tempoRestante);
-            falar("Iniciando descanso.");
-
-            timerInterval = setInterval(() => {
-                tempoRestante--;
-                atualizarTextoTimer(tempoRestante);
-
-                if (tempoRestante === 30) {
-                    falar("Trinta segundos restantes.");
-                } else if (tempoRestante === 10) {
-                    falar("Dez segundos. Prepare-se.");
-                } else if (tempoRestante === 3) {
-                    falar("Três");
-                } else if (tempoRestante === 2) {
-                    falar("Dois");
-                } else if (tempoRestante === 1) {
-                    falar("Um");
-                }
-
-                if (tempoRestante <= 0) {
-                    clearInterval(timerInterval);
-                    falar("Fim do descanso! Volte para a próxima série.");
-                    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                    fecharCronometro();
-                }
-            }, 1000);
-        }
-
-        function atualizarTextoTimer(segundos) {
-            const min = Math.floor(segundos / 60).toString().padStart(2, '0');
-            const seg = (segundos % 60).toString().padStart(2, '0');
-            document.getElementById('timer-display').innerText = `${min}:${seg}`;
-        }
-
-        function fecharCronometro() {
-            clearInterval(timerInterval);
-            document.getElementById('timer-modal').classList.add('hidden');
-        }
-
-        function resetarTreino() {
-            if (confirm("Quer desmarcar os exercícios concluídos de hoje?")) {
-                const filtrados = dados.filter(d => d.usuario === usuarioAtivo && d.treino === treinoAtivo);
-                filtrados.forEach(ex => {
-                    const id = `${usuarioAtivo}-${treinoAtivo}-${ex.exercicio}`.replace(/\s+/g, '-');
-                    localStorage.removeItem(id);
-                });
-                render();
-            }
-        }
-
-        function render() {
-            const filtrados = dados.filter(d => d.usuario === usuarioAtivo && d.treino === treinoAtivo);
-            let perfil = dados.find(d => d.usuario === usuarioAtivo);
-            
-            // Dados personalizados do aluno
-            let infoText = usuarioAtivo === "Paulino" ? "53 anos | 1.65m | 67kg" : "48 anos | 1.67m | 77kg";
-            
-            document.getElementById('user-objetivo').innerText = perfil.objetivo;
-            document.getElementById('user-info').innerText = infoText;
-            document.getElementById('foco-descricao').innerText = filtrados[0] ? filtrados[0].foco : "";
-
-            const container = document.getElementById('lista-exercicios');
-            container.innerHTML = "";
-
-            filtrados.forEach((ex) => {
-                const idUnico = `${usuarioAtivo}-${treinoAtivo}-${ex.exercicio}`.replace(/\s+/g, '-');
-                const marcado = localStorage.getItem(idUnico) === "true";
-                const cardClass = marcado ? "bg-zinc-950/20 opacity-40 border-zinc-900" : "bg-zinc-900 border-zinc-800";
-
-                // Botão do cronômetro com áudio se houver tempo de descanso
-                const btnDescanso = ex.descSeg > 0 
-                    ? `<button onclick="abrirCronometro(${ex.descSeg})" class="mt-2.5 w-full bg-zinc-800 hover:bg-zinc-750 text-gray-300 font-bold py-2 rounded-xl text-xs flex items-center justify-center border border-zinc-700/50">
-                            <i class="fa-regular fa-clock mr-1.5 text-yellow-500"></i>Contar Descanso (${ex.desc})
-                       </button>` 
-                    : `<div class="mt-2 text-xs text-gray-500 font-medium py-1.5"><i class="fa-solid fa-flag-checkered mr-1.5 text-yellow-500"></i>${ex.desc}</div>`;
-
-                // URL de busca refinada direcionada especificamente para aparelhos multifuncionais estilo a sua estação
-                const linkBuscaYoutube = `https://www.youtube.com/results?search_query=${encodeURIComponent(ex.buscaQuery)}`;
-
-                container.innerHTML += `
-                    <div id="card-${idUnico}" class="p-4 rounded-2xl shadow-md border transition-all duration-150 flex flex-col justify-between ${cardClass}">
-                        <div class="flex items-start justify-between">
-                            <div class="flex-1 pr-4">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-2xl">${ex.desenho}</span>
-                                    <h4 class="font-extrabold text-white text-base leading-tight">${ex.exercicio}</h4>
-                                </div>
-                                <p class="text-xs text-yellow-500 font-bold mt-1"><i class="fa-solid fa-screwdriver-wrench mr-1"></i>${ex.equip}</p>
-                            </div>
-                            <div>
-                                <input id="${idUnico}" type="checkbox" onchange="toggleExercicio('${idUnico}')" ${marcado ? 'checked' : ''} 
-                                    class="w-7 h-7 text-yellow-500 bg-zinc-800 border-zinc-700 rounded-lg focus:ring-yellow-500 accent-yellow-500">
-                            </div>
-                        </div>
-
-                        <!-- Dica de execução detalhada da máquina -->
-                        <p class="text-[11px] text-gray-400 mt-2 italic leading-relaxed bg-zinc-950/40 p-2 rounded-lg border border-zinc-850">${ex.dicatexto}</p>
-
-                        <div class="flex gap-4 mt-3 text-[11px] text-gray-400 border-t border-zinc-800/60 pt-3">
-                            <span>Séries: <strong class="text-white font-bold">${ex.series}</strong></span>
-                            <span>Reps: <strong class="text-white font-bold">${ex.reps}</strong></span>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-2 mt-3 pt-1">
-                            <a href="${linkBuscaYoutube}" target="_blank" class="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 font-bold py-2 rounded-xl text-xs flex items-center justify-center border border-yellow-500/20">
-                                <i class="fa-solid fa-magnifying-glass mr-1.5 text-yellow-500 text-sm"></i>Como Fazer
-                            </a>
-                            ${btnDescanso}
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        render();
-    </script>
 </body>
 </html>
