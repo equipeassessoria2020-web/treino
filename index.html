@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Una Bela - Espaço de Beleza & Estética</title>
+    <title>Una Bela - Espaço de Beleza e Estética</title>
     <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,13 +20,13 @@
         }
 
         :root {
-            --primary: #d4af37; /* Dourado elegante */
+            --primary: #d4af37; /* Dourado do AppBeleza / Una Bela */
             --primary-hover: #b89628;
             --bg-dark: #121212;
-            --card-bg: rgba(255, 255, 255, 0.08);
-            --card-border: rgba(255, 255, 255, 0.12);
-            --text-light: #f5f5f5;
-            --text-muted: #cccccc;
+            --card-bg: rgba(20, 20, 20, 0.75);
+            --card-border: rgba(212, 175, 55, 0.25);
+            --text-light: #ffffff;
+            --text-muted: #d0d0d0;
             --whatsapp-green: #25d366;
         }
 
@@ -37,14 +37,14 @@
             position: relative;
         }
 
-        /* --- FUNDO DO AMBIENTE COM FUMÊ (OVERLAY) --- */
+        /* --- FUNDO DO AMBIENTE COM EFEITO FUMÊ (DARK OVERLAY) --- */
         .background-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* Imagem de fundo do ambiente do salão */
+            /* Imagem de fundo real do ambiente do salão */
             background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1920&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
@@ -52,7 +52,7 @@
             z-index: -2;
         }
 
-        /* Camada Fumê (Dark Overlay) */
+        /* Camada Fumê Escura para Alto Contraste */
         .fume-overlay {
             position: fixed;
             top: 0;
@@ -61,50 +61,55 @@
             height: 100%;
             background: linear-gradient(
                 180deg, 
-                rgba(0, 0, 0, 0.82) 0%, 
-                rgba(18, 18, 18, 0.92) 50%, 
-                rgba(10, 10, 10, 0.98) 100%
+                rgba(0, 0, 0, 0.85) 0%, 
+                rgba(15, 15, 15, 0.92) 50%, 
+                rgba(5, 5, 5, 0.98) 100%
             );
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             z-index: -1;
         }
 
         /* --- CONTAINER PRINCIPAL --- */
         .container {
-            max-width: 800px;
+            max-width: 680px;
             margin: 0 auto;
-            padding: 20px 16px 60px 16px;
+            padding: 25px 16px 60px 16px;
         }
 
-        /* --- CABEÇALHO / PERFIL --- */
+        /* --- CABEÇALHO / PERFIL DO SALÃO --- */
         .profile-header {
             text-align: center;
-            padding: 30px 20px;
+            padding: 35px 20px 25px 20px;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            margin-bottom: 25px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            margin-bottom: 20px;
+        }
+
+        .avatar-container {
+            position: relative;
+            display: inline-block;
         }
 
         .avatar {
-            width: 110px;
-            height: 110px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             border: 3px solid var(--primary);
             object-fit: cover;
             margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35);
         }
 
         .brand-name {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 600;
             color: #ffffff;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             letter-spacing: 1px;
         }
 
@@ -112,30 +117,32 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(37, 211, 102, 0.15);
+            background: rgba(37, 211, 102, 0.18);
+            border: 1px solid rgba(37, 211, 102, 0.4);
             color: #4cd964;
-            padding: 4px 12px;
+            padding: 4px 14px;
             border-radius: 20px;
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: 12px;
         }
 
         .rating {
             color: #ffc107;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             margin-bottom: 15px;
         }
 
         .rating span {
             color: var(--text-muted);
-            margin-left: 5px;
+            margin-left: 6px;
+            font-weight: 500;
         }
 
         .address-info {
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             color: var(--text-muted);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .address-info i {
@@ -146,9 +153,9 @@
         /* --- BOTÕES DE AÇÃO RÁPIDA --- */
         .action-buttons {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin-bottom: 25px;
         }
 
         .btn-action {
@@ -163,12 +170,13 @@
             text-decoration: none;
             border-radius: 12px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             transition: all 0.3s ease;
         }
 
         .btn-action:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--primary);
             transform: translateY(-2px);
         }
 
@@ -180,15 +188,15 @@
 
         .btn-action.primary:hover {
             background: #1eb857;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 4px 18px rgba(37, 211, 102, 0.45);
         }
 
         /* --- MENU DE CATEGORIAS --- */
         .category-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             color: var(--primary);
-            margin: 30px 0 15px 0;
+            margin: 28px 0 14px 0;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -201,12 +209,12 @@
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 14px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
             transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
@@ -221,20 +229,20 @@
         }
 
         .service-name {
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #ffffff;
             margin-bottom: 4px;
         }
 
         .service-details {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .service-price {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: var(--primary);
         }
@@ -243,7 +251,7 @@
             background: transparent;
             border: 1px solid var(--primary);
             color: var(--primary);
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 8px;
             text-decoration: none;
             font-size: 0.85rem;
@@ -263,14 +271,14 @@
             border: 1px solid var(--card-border);
             border-radius: 16px;
             padding: 20px;
-            margin-top: 35px;
-            backdrop-filter: blur(8px);
+            margin-top: 30px;
+            backdrop-filter: blur(10px);
         }
 
         .info-box h3 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--primary);
-            margin-bottom: 15px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -278,14 +286,14 @@
 
         .schedule-list {
             list-style: none;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
         }
 
         .schedule-item {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
             color: var(--text-muted);
         }
 
@@ -301,15 +309,10 @@
             color: var(--text-muted);
         }
 
-        footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
         /* --- RESPONSIVIDADE --- */
         @media (max-width: 480px) {
             .brand-name {
-                font-size: 1.6rem;
+                font-size: 1.75rem;
             }
             .service-card {
                 flex-direction: column;
@@ -325,19 +328,21 @@
 </head>
 <body>
 
-    <!-- Fundo do Ambiente e Camada Fumê -->
+    <!-- Fundo do Ambiente com Camada Fumê -->
     <div class="background-overlay"></div>
     <div class="fume-overlay"></div>
 
     <div class="container">
 
-        <!-- CABEÇALHO / PERFIL DO SALÃO -->
+        <!-- CABEÇALHO DE PERFIL -->
         <header class="profile-header">
-            <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=300&auto=format&fit=crop" alt="Una Bela Logo" class="avatar">
+            <div class="avatar-container">
+                <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=300&auto=format&fit=crop" alt="Una Bela Logo" class="avatar">
+            </div>
             <h1 class="brand-name">Una Bela</h1>
             
             <div class="badge-status">
-                <i class="fa-solid fa-circle" style="font-size: 8px;"></i> Aberto Agora
+                <i class="fa-solid fa-circle" style="font-size: 8px;"></i> Aberto para Agendamentos
             </div>
 
             <div class="rating">
@@ -346,18 +351,18 @@
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
                 <i class="fa-solid fa-star"></i>
-                <span>5.0 (120+ avaliações)</span>
+                <span>5.0 (Avaliações dos clientes)</span>
             </div>
 
             <p class="address-info">
-                <i class="fa-solid fa-location-dot"></i> Av. Principal, 1000 - Centro, Itapevi - SP<br>
-                Especialistas em Unhas, Cabelo & Estética
+                <i class="fa-solid fa-location-dot"></i> Av. Prof. Manoel José Pedroso, 300 - Cotia / SP<br>
+                <i class="fa-solid fa-phone" style="margin-top: 5px;"></i> (11) 99999-9999
             </p>
         </header>
 
-        <!-- BOTOES DE AÇÃO RÁPIDA -->
+        <!-- AÇÕES RÁPIDAS -->
         <div class="action-buttons">
-            <a href="https://wa.me/5511999999999?text=Olá,%20gostaria%20de%20agendar%20um%20horário!" target="_blank" class="btn-action primary">
+            <a href="https://wa.me/5511999999999?text=Olá,%20gostaria%20de%20agendar%20um%20horário%20no%20Una%20Bela!" target="_blank" class="btn-action primary">
                 <i class="fa-brands fa-whatsapp"></i> Agendar
             </a>
             <a href="https://maps.google.com" target="_blank" class="btn-action">
@@ -368,8 +373,8 @@
             </a>
         </div>
 
-        <!-- SEÇÃO: CABELO -->
-        <h2 class="category-title"><i class="fa-solid fa-scissors"></i> Cabelo & Penteados</h2>
+        <!-- CATEGORIA: CABELO -->
+        <h2 class="category-title"><i class="fa-solid fa-scissors"></i> Cabelo & Tratamentos</h2>
 
         <div class="service-card">
             <div class="service-info">
@@ -377,30 +382,29 @@
                 <div class="service-details"><i class="fa-regular fa-clock"></i> 60 min</div>
                 <div class="service-price">R$ 90,00</div>
             </div>
-            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Corte%20Feminino%20e%20Escova" class="btn-book">Agendar</a>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Corte%20Feminino%20e%20Escova" target="_blank" class="btn-book">Agendar</a>
         </div>
 
         <div class="service-card">
             <div class="service-info">
-                <div class="service-name">Hidratação Profunda / Nutrição</div>
-                <div class="service-details"><i class="fa-regular fa-clock"></i> 45 min</div>
-                <div class="service-price">R$ 120,00</div>
+                <div class="service-name">Hidratação & Escova Profunda</div>
+                <div class="service-details"><i class="fa-regular fa-clock"></i> 50 min</div>
+                <div class="service-price">R$ 110,00</div>
             </div>
-            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Hidratação%20Profunda" class="btn-book">Agendar</a>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Hidratação%20e%20Escova" target="_blank" class="btn-book">Agendar</a>
         </div>
 
         <div class="service-card">
             <div class="service-info">
-                <div class="service-name">Mechas / Meias Mechas</div>
+                <div class="service-name">Mechas / Iluminado</div>
                 <div class="service-details"><i class="fa-regular fa-clock"></i> 180 min</div>
                 <div class="service-price">R$ 280,00</div>
             </div>
-            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Mechas" class="btn-book">Agendar</a>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Mechas%20Iluminado" target="_blank" class="btn-book">Agendar</a>
         </div>
 
-
-        <!-- SEÇÃO: UNHAS -->
-        <h2 class="category-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Unhas & Manicure</h2>
+        <!-- CATEGORIA: UNHAS -->
+        <h2 class="category-title"><i class="fa-solid fa-hand-sparkles"></i> Unhas & Nail Designer</h2>
 
         <div class="service-card">
             <div class="service-info">
@@ -408,64 +412,44 @@
                 <div class="service-details"><i class="fa-regular fa-clock"></i> 60 min</div>
                 <div class="service-price">R$ 65,00</div>
             </div>
-            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Mão%20e%20Pé" class="btn-book">Agendar</a>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Manicure%20e%20Pedicure" target="_blank" class="btn-book">Agendar</a>
         </div>
 
         <div class="service-card">
             <div class="service-info">
-                <div class="service-name">Alongamento em Gel (Aplicação)</div>
+                <div class="service-name">Alongamento em Gel</div>
                 <div class="service-details"><i class="fa-regular fa-clock"></i> 120 min</div>
                 <div class="service-price">R$ 150,00</div>
             </div>
-            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Alongamento%20em%20Gel" class="btn-book">Agendar</a>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Alongamento%20em%20Gel" target="_blank" class="btn-book">Agendar</a>
         </div>
 
-        <div class="service-card">
-            <div class="service-info">
-                <div class="service-name">Manutenção de Gel</div>
-                <div class="service-details"><i class="fa-regular fa-clock"></i> 90 min</div>
-                <div class="service-price">R$ 95,00</div>
-            </div>
-            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Manutenção%20de%20Gel" class="btn-book">Agendar</a>
-        </div>
-
-
-        <!-- SEÇÃO: SOBRANCELHAS & CÍLIOS -->
-        <h2 class="category-title"><i class="fa-solid fa-eye"></i> Olhar & Estética Facial</h2>
+        <!-- CATEGORIA: SOBRANCELHAS -->
+        <h2 class="category-title"><i class="fa-solid fa-eye"></i> Sobrancelhas & Cílios</h2>
 
         <div class="service-card">
             <div class="service-info">
                 <div class="service-name">Design de Sobrancelhas com Henna</div>
-                <div class="service-details"><i class="fa-regular fa-clock"></i> 40 min</div>
-                <div class="service-price">R$ 50,00</div>
+                <div class="service-details"><i class="fa-regular fa-clock"></i> 45 min</div>
+                <div class="service-price">R$ 55,00</div>
             </div>
-            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Design%20de%20Sobrancelhas" class="btn-book">Agendar</a>
+            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Design%20de%20Sobrancelhas" target="_blank" class="btn-book">Agendar</a>
         </div>
 
-        <div class="service-card">
-            <div class="service-info">
-                <div class="service-name">Extensão de Cílios (Volume Russo)</div>
-                <div class="service-details"><i class="fa-regular fa-clock"></i> 120 min</div>
-                <div class="service-price">R$ 160,00</div>
-            </div>
-            <a href="https://wa.me/5511999999999?text=Quero%20agendar:%20Extensão%20de%20Cílios" class="btn-book">Agendar</a>
-        </div>
-
-
-        <!-- HORÁRIOS DE FUNCIONAMENTO -->
+        <!-- HORÁRIOS DE ATENDIMENTO -->
         <div class="info-box" id="horarios">
             <h3><i class="fa-regular fa-calendar-check"></i> Horário de Atendimento</h3>
             <ul class="schedule-list">
                 <li class="schedule-item">
                     <span>Terça a Sexta-feira</span>
-                    <span>09:00 - 19:00</span>
+                    <span>09:00 às 19:00</span>
                 </li>
                 <li class="schedule-item">
                     <span>Sábado</span>
-                    <span>08:30 - 18:00</span>
+                    <span>08:30 às 18:00</span>
                 </li>
                 <li class="schedule-item">
-                    <span>Domingo e Segunda-feira</span>
+                    <span>Domingo e Segunda</span>
                     <span>Fechado</span>
                 </li>
             </ul>
@@ -474,7 +458,7 @@
         <!-- RODAPÉ -->
         <footer>
             <p>© Una Bela - Todos os direitos reservados</p>
-            <p style="margin-top: 5px;">Hospedado no GitHub Pages</p>
+            <p style="margin-top: 4px;">Página para GitHub Pages</p>
         </footer>
 
     </div>
